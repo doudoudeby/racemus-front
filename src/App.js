@@ -17,9 +17,11 @@ class App extends React.Component{
             lng: -0.09,
             zoom: 13,
             search: '',
-            macDoiList: []
+            macDoiList: [],
 
         }
+
+        this.dataLenght = 0
 
 
     }
@@ -36,28 +38,41 @@ class App extends React.Component{
 
         this.setState({ search: e.target.value })
        let newList = [];
-        let currentList = [];
         if(e.target.value === ""){
 
             getAllMacdo().then(data => {
                 this.setState({ macDoiList: data.response  })
+                this.dataLenght = this.state.macDoiList.length;
             });
 
             newList = this.state.macDoiList;
 
         } else {
-            currentList = this.state.macDoiList;
-
-            newList = currentList.filter(item => {
-                const lc = item.name.toLowerCase();
-                const filter = e.target.value.toLowerCase();
-                const splitString = lc.split("").reverse().join("");
-
-                const word = splitString.replace(splitString.slice(0,2) , splitString.slice(0,2).split("").reverse().join(""));
+         const  currentList = this.state.macDoiList;
+         const response = []
 
 
-                return word.includes(filter);
+            currentList.map(data => {
+
+                const reverseSplitName = data.name.split("").reverse().join("");
+                const recupereAk = reverseSplitName.slice(0,2).split("").reverse().join("");
+
+                const ObjectId = {
+                    "indice" : recupereAk
+                }
+                 response.push(Object.assign(ObjectId,data));
+
             });
+
+
+            newList = response.filter(item => {
+                const lc = item.indice.toLowerCase();
+                const filter = e.target.value.toLowerCase();
+                console.log(lc);
+
+                return lc.includes(filter);
+            });
+
         }
 
 
@@ -70,6 +85,9 @@ class App extends React.Component{
 
     render() {
         console.log("macDoiList", this.state.macDoiList);
+
+
+
     return(
         <div className="container">
             <p className="title" >
@@ -86,14 +104,17 @@ class App extends React.Component{
             </div>
 
             <div>
-                { this.state.search }
+
+                { this.dataLenght } resultats ont été trouvés
             </div>
 
             <div>
 
                     { this.state.macDoiList.map((data , index) =>
                         <ul key={index} >
-                             <li  >
+
+
+                             <li>
                                  <p>
                                      {data.name} &nbsp; {data.position} &nbsp; {data.address}
                                  </p>
