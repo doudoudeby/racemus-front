@@ -6,7 +6,12 @@
   font-size: 25px;
 }
 
+.loader {
 
+  height: 100px;
+  width: 100px;
+
+}
 
 .leafCss {
   height: 400px;
