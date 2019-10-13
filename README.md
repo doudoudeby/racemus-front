@@ -3,6 +3,8 @@ Dans le répertoire du projet, vous pouvez exécuter:
 
 ### `npm install`
 
+### `npm start`
+
 Lance l'application en mode développement.<br />
 Ouvre [http://localhost:3000](http://localhost:3000) pour le voir dans le navigateur.
 
